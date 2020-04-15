@@ -41,7 +41,6 @@ end
 original_array
 end 
 
-#for each chapter link, get the volume and series info back for the user 
 #for each character, some info from each link to return back to the user 
 
 def self.character_links
@@ -52,6 +51,19 @@ def self.character_links
     end
     end
 personal_links
+end
+
+def self.character_info 
+    array = [] 
+    character_links.each do |info| 
+    info = open(info)
+    link = Nokogiri::HTML(info)
+    hash = {
+        background:link.css("#mw-content-text p")[0].text
+    }
+    array << hash
+end
+array
 end
 
 
