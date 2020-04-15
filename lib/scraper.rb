@@ -52,7 +52,6 @@ def self.character_links
     end
     end
 personal_links
-binding.pry
 end
 
 
@@ -66,16 +65,15 @@ def self.chapter_links
 chapter_links
 end
 
-def self.chapter_info 
-info = {}
+def self.chapter_summary
 array = [] 
 chapter_links.each do |a|
 fma_wiki = open(a)
 wiki = Nokogiri::HTML(fma_wiki)
-info[:summary] = wiki.css("#mw-content-text p").text
+info = {
+chapter_summary: wiki.css("#mw-content-text p").text
+}
 array << info 
-binding.pry
-
 end
 array 
 end
