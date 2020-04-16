@@ -1,94 +1,50 @@
 
 class Webscraper 
 
+
 def self.state_alchemists
-fma_wiki = open("https://fma.fandom.com/wiki/Alchemist")
-wiki = Nokogiri::HTML(fma_wiki)
-array = [] 
-state_alchemsit = {} 
-counter = 0 
-while counter <= 8
-    info_array = wiki.css("table tr")[counter +1].text.strip.split("\n")
-        state_alchemist = { 
-        name: info_array[0],
-        title: info_array[1],
-        rank: info_array[2],
-        first_apperance: info_array[-1],
-    }
-    array << state_alchemist
-    counter +=1
-end
-array
-end 
-
-
-def self.all_links
-#gets all the links for the character & the chapter they first appear in
-fma_wiki = open("https://fma.fandom.com/wiki/Alchemist")
-wiki = Nokogiri::HTML(fma_wiki)
-array = [] 
-original_array = [] 
-base_link = "https://fma.fandom.com/"
-wiki.css("table tr a").each do|links| 
-array << base_link+links.attr("href")
-end 
-array
-array.each_with_index do |info,index| 
-if index <18
-    original_array << info
-end
-end
-original_array
-end 
-
-#for each character, some info from each link to return back to the user 
-
-def self.character_links
-    personal_links = [] 
-    all_links.each_with_index do |a,index|
-    if index == 0 || index.even? 
-    personal_links << a
-    end
-    end
-personal_links
-end
-
-def self.character_info 
+    fma_wiki = open("https://fma.fandom.com/wiki/Alchemist")
+    wiki = Nokogiri::HTML(fma_wiki)
     array = [] 
-    character_links.each do |info| 
-    info = open(info)
-    link = Nokogiri::HTML(info)
-    hash = {
-        background:link.css("#mw-content-text p")[0].text
-    }
-    array << hash
-end
-array
-end
-
-
-def self.chapter_links 
-    chapter_links = [] 
-    all_links.each_with_index do |a,index| 
-        if index.odd? 
-            chapter_links << a 
-        end
+    base_link = "https://fma.fandom.com/" 
+    wiki.css("table tr").each_with_index do |info,index|
+        next if index == 0 
+        state_alchemist = {
+            name: info.css("td").map(&:text)[0],
+            title: info.css("td").map(&:text)[1],
+            rank:info.css("td").map(&:text)[2],
+            first_apperance:info.css("td").map(&:text)[3], 
+            name_link:base_link+info.css("a").first["href"], 
+            chapter_link:base_link+info.css("a").last["href"]
+        }
+     
+            array << state_alchemist    
     end
-chapter_links
+    array
+    # info.css("td").map(&:text) - gives us each of the texts
+    # info.css("a").first["href"] - gives us the first link
 end
 
-def self.chapter_summary
-array = [] 
-chapter_links.each do |a|
-fma_wiki = open(a)
-wiki = Nokogiri::HTML(fma_wiki)
-info = {
-chapter_summary: wiki.css("#mw-content-text p").text
-}
-array << info 
-end
-array 
-end
+
+# need to test the below two methods if they work as intended once Alchemist is instanciated
+# def self.get_character_info(character_name)
+#     get_details = state_alchemists.detect{|a|a.name == character}
+#      fma_wiki = open(get_details[:name_link])
+#     character_website = Nokogiri::HTML(fma_wiki)
+#     introduction = character_website.css("#mw-content-text p").text
+#     introduction
+# end 
+# probs be a class method for the Alchemist class
+
+
+
+# def self.get_chapter_summary(character_name)
+# get_details = state_alchemist.detect(|a|a.name == character_name) 
+# fma_wiki = open(get_details[:chapter_link]
+# wiki = Nokogiri::HTML(fma_wiki)
+# chapter= wiki.css("#mw-content-text p").text
+# chapter
+# end
 
 
 end
