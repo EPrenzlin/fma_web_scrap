@@ -1,4 +1,3 @@
-
 class Webscraper 
 
 
@@ -27,24 +26,23 @@ end
 
 
 # need to test the below two methods if they work as intended once Alchemist is instanciated
-# def self.get_character_info(character_name)
-#     get_details = state_alchemists.detect{|a|a.name == character}
-#      fma_wiki = open(get_details[:name_link])
-#     character_website = Nokogiri::HTML(fma_wiki)
-#     introduction = character_website.css("#mw-content-text p").text
-#     introduction
-# end 
-# probs be a class method for the Alchemist class
+def self.get_character_info(character_name)
+    get_details = Alchemist.all.detect{|a|a.name.include?(character_name)}
+    fma_wiki = open(get_details.name_link)
+    character_website = Nokogiri::HTML(fma_wiki)
+    p_one = character_website.css("#mw-content-text p")[0].text
+    p_two = character_website.css("#mw-content-text p")[1].text
+    together = p_one + p_two 
+    puts together    
+end 
 
 
-
-# def self.get_chapter_summary(character_name)
-# get_details = state_alchemist.detect(|a|a.name == character_name) 
-# fma_wiki = open(get_details[:chapter_link]
-# wiki = Nokogiri::HTML(fma_wiki)
-# chapter= wiki.css("#mw-content-text p").text
-# chapter
-# end
+def self.get_chapter_info(character_name)
+get_details = Alchemist.all.detect{|a|a.name.include?(character_name)} 
+fma_wiki = open(get_details.chapter_link)
+chapter_website = Nokogiri::HTML(fma_wiki)
+chapter_website.css("#mw-content-text p").text.split("\n").join
+end
 
 
 end
