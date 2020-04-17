@@ -41,7 +41,11 @@ def self.get_chapter_info(character_name)
 get_details = Alchemist.all.detect{|a|a.name.include?(character_name)} 
 fma_wiki = open(get_details.chapter_link)
 chapter_website = Nokogiri::HTML(fma_wiki)
+if chapter_website.css("#mw-content-text p").text.split("\n").join != ""
 chapter_website.css("#mw-content-text p").text.split("\n").join
+else 
+    puts "This chapter does not have the info you want"
+end
 end
 
 
