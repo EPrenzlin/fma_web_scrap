@@ -25,9 +25,9 @@ def self.state_alchemists
 end
 
 
-def self.get_character_info(character_name)
-    get_details = Alchemist.all.detect{|a|a.name.include?(character_name)}
-    fma_wiki = open(get_details.name_link)
+def self.get_character_info(link)
+    # get_details = Alchemist.all.detect{|a|a.name.include?(character_name)}
+    fma_wiki = open(link)
     character_website = Nokogiri::HTML(fma_wiki)
     p_one = character_website.css("#mw-content-text p")[0].text
     p_two = character_website.css("#mw-content-text p")[1].text
@@ -36,9 +36,8 @@ def self.get_character_info(character_name)
 end 
 
 
-def self.get_chapter_info(character_name)
-get_details = Alchemist.all.detect{|a|a.name.include?(character_name)} 
-fma_wiki = open(get_details.chapter_link)
+def self.get_chapter_info(link)
+fma_wiki = open(link)
 chapter_website = Nokogiri::HTML(fma_wiki)
     if chapter_website.css("#mw-content-text p").text.split("\n").join != ""
     chapter_website.css("#mw-content-text p").text.split("\n").join

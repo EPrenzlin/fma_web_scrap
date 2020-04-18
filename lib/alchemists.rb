@@ -21,16 +21,34 @@ def self.create_alchemists(array_of_hashes)
     end 
 end
 
-def self.valid?(input)
 
+def self.chapter_link(number) 
+link = nil
+    Alchemist.all.each_with_index do |alchemist,i|
+    if i == number.to_i 
+        link = alchemist.chapter_link
+    end
+end 
+link  
 end
 
-def self.chapter_info(number) 
-Webscraper.get_chapter_info(Alchemist.all[number.to_i].name)
+def self.character_link(number)
+link = nil 
+    Alchemist.all.each_with_index do |a,i|
+    if i == number.to_i 
+    link = a.name_link
+    end
+    end
+link
+end 
+
+
+def self.chapter_info(link)
+Webscraper.get_chapter_info(link)
 end
 
-def self.character_info(number) 
-
+def self.character_info(link) 
+Webscraper.get_character_info(link)
 end 
 
 

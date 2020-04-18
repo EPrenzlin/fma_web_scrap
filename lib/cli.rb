@@ -14,6 +14,7 @@ class Cli
     list_all_alchemists
     instructions
     list_a_alchemist(input = gets.chomp)
+    see_more(input= gets.chomp)
     end
 
     def greeting
@@ -45,7 +46,7 @@ class Cli
 
     def list_a_alchemist(index)
         if valid?(index)
-        actual_index = index.to_i - 1
+            actual_index = index.to_i - 1
             Alchemist.all.each_with_index do |alchemist,i| 
             if actual_index == i 
             puts "#{alchemist.name} has the title of #{alchemist.title}. #{alchemist.name} holds the rank of #{alchemist.rank} and first appears in #{alchemist.first_apperance}."
@@ -54,22 +55,44 @@ class Cli
         end
     end
 
-    def get_chapter_info?(user_input = gets.chomp)
-    puts "Do you want a summary of this chapter?"
-    if user_input == "yes"
-        provide_chapter_info(i)
-    elsif user_inputs == "no"
+    def see_more(input = gets.chomp)
+        puts "Do you want to read about the character or chapter?"
+        if input == "yes" 
+            decision
+        elsif input != "yes"
+            puts "Please either type in 'yes' or 'no'."
+        elsif input == "no"
 
+        end
     end
+
+    def decision(input = gets.chomp)
+    puts "Do you want to read the chapter summary"
+        if input == "yes" 
+            provide_chapter_info(number)
+        elsif input == "no"
+            puts "Do you want to read the character info?"
+            if input == "yes"
+                provide character_info(number)
+            end
+        elsif input == "no"
+            puts "Thanks - back to main menu then"
+            user_selection 
+        elsif input != "yes"|| "no"
+            puts "Please either type in a 'yes' or 'no'"
+
+        end
     end
+
         
-    #need to swith the both around a bit to accompany the index methods instead of name :D 
     def provide_chapter_info(input_number) 
-    Alchemist.get_chapter_info(input_number.to_i)
+    link = Alchemist.chapter_link(number)
+    Alchemist.get_chapter_info(link)
     end
     
     def character_info(input_number)
-    Alchemist.get_character_info(input_number)
+    link = Alchemist.character_info(number)
+    Alchemist.get_character_info(link)
     end
 
 
