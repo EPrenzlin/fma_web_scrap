@@ -9,12 +9,12 @@ def self.state_alchemists
     wiki.css("table tr").each_with_index do |info,index|
         next if index == 0 
         state_alchemist = {
-            name: info.css("td").map(&:text)[0],
-            title: info.css("td").map(&:text)[1],
-            rank:info.css("td").map(&:text)[2],
-            first_apperance:info.css("td").map(&:text)[3], 
-            name_link:base_link+info.css("a").first["href"], 
-            chapter_link:base_link+info.css("a").last["href"]
+            name: info.css("td").map(&:text)[0].chomp,
+            title: info.css("td").map(&:text)[1].chomp,
+            rank:info.css("td").map(&:text)[2].chomp.lstrip.chomp,
+            first_apperance:info.css("td").map(&:text)[3].chomp, 
+            name_link:base_link+info.css("a").first["href"].chomp, 
+            chapter_link:base_link+info.css("a").last["href"].chomp
         }
      
             array << state_alchemist    
@@ -25,7 +25,6 @@ def self.state_alchemists
 end
 
 
-# need to test the below two methods if they work as intended once Alchemist is instanciated
 def self.get_character_info(character_name)
     get_details = Alchemist.all.detect{|a|a.name.include?(character_name)}
     fma_wiki = open(get_details.name_link)
@@ -41,10 +40,10 @@ def self.get_chapter_info(character_name)
 get_details = Alchemist.all.detect{|a|a.name.include?(character_name)} 
 fma_wiki = open(get_details.chapter_link)
 chapter_website = Nokogiri::HTML(fma_wiki)
-if chapter_website.css("#mw-content-text p").text.split("\n").join != ""
-chapter_website.css("#mw-content-text p").text.split("\n").join
-else 
-    puts "This chapter does not have the info you want"
+    if chapter_website.css("#mw-content-text p").text.split("\n").join != ""
+    chapter_website.css("#mw-content-text p").text.split("\n").join
+    else 
+    puts "This chapter has not been written on our wiki page. We apologise"
 end
 end
 

@@ -6,24 +6,44 @@ def self.all
     @@all 
 end
 
-#list them by rank
-#list them by alphabetical order 
-#list them by chapter order
-
-def self.find_by_name(name) 
+def self.find_by_title(title)
+    self.all.detect{|alchemist|alchemist.title.include?(title)}  
 end
 
 def self.find_by_rank(rank) 
+self.all.select{|a|a.rank.include?(rank)}
 end 
 
-def self.by_chapter_order(chapter_number)
-end
 
 def self.create_alchemists(array_of_hashes)
     array_of_hashes.each do |hash| 
-        new(hash)
+    new(hash)
     end 
 end
+
+def self.verify?(name)
+    Alchemist.all.each do |a| 
+        if a.name.eql?(name)
+        end
+    end
+end
+
+def self.chapter_summary(name) 
+    if self.verfify?(name) 
+    Webscraper.get_chapter_info(name)
+    else 
+        puts "This charcter does not exist"
+    end
+end
+
+def self.character_info(name) 
+    if self.verify?(name)
+    Webscraper.get_character_info(name) 
+    else 
+        puts "This character does not exist"
+    end
+end 
+
 
 attr_accessor :name, :rank, :title, :chapter_link, :name_link, :first_apperance
 
