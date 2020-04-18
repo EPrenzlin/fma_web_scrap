@@ -21,28 +21,18 @@ def self.create_alchemists(array_of_hashes)
     end 
 end
 
-def self.verify?(name)
-    Alchemist.all.each do |a| 
-        if a.name.eql?(name)
-        end
-    end
+def self.valid?(input)
+
 end
 
-def self.chapter_summary(name) 
-    if self.verfify?(name) 
-    Webscraper.get_chapter_info(name)
-    else 
-        puts "This charcter does not exist"
-    end
+def self.chapter_info(number) 
+Webscraper.get_chapter_info(Alchemist.all[number.to_i].name)
 end
 
-def self.character_info(name) 
-    if self.verify?(name)
-    Webscraper.get_character_info(name) 
-    else 
-        puts "This character does not exist"
-    end
+def self.character_info(number) 
+
 end 
+
 
 
 attr_accessor :name, :rank, :title, :chapter_link, :name_link, :first_apperance
