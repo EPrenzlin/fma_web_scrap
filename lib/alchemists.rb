@@ -43,11 +43,15 @@ link
 end 
 
 
-def self.chapter_info(link)
+def self.chapter_info(number)
+input = number.to_i
+link = self.chapter_link(number)
 Webscraper.get_chapter_info(link)
 end
 
-def self.character_info(link) 
+def self.character_info(number)
+input = number.to_i 
+link = self.character_link(input)
 Webscraper.get_character_info(link)
 end 
 
@@ -62,7 +66,13 @@ def initialize(name: nil, rank: nil , title: nil , name_link: nil, chapter_link:
     @chapter_link = chapter_link
     @name_link = name_link
     @first_apperance = first_apperance
-    @@all << self
+    save
 end
+
+
+def save 
+@@all << self
+end 
+
 
 end

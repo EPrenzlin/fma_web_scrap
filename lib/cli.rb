@@ -6,20 +6,42 @@ class Cli
 
     def start 
     create_alchemists 
-    user_selection
+    present_info
     end
 
-    def user_selection
+    def present_info
     greeting
     list_all_alchemists
     instructions
-    list_a_alchemist(input = gets.chomp)
-    see_more(input= gets.chomp)
+    loop do 
+        input = number_selection
+        break if input == "exit"
+        next if input == "invalid"
+        list_a_alchemist(input)
+        decision
+        choice = second_selection
+        break if choice == "exit"
+        next if choice == "invalid" 
+        chapter_info(input)
+        second_decision
+        second_choice = third_selection
+        break if second_choice == "exit"
+        next if second_choice == "invalid"
+        character_info(input)
+        
+    end
     end
 
     def greeting
         puts "Welcome to the Full Metal Alchemist - State Alchemist database \n"
         puts "Information contained herein includes spoilers.\n"
+        puts "Below is a list of all the currently known State Alchemists.\n"
+    end
+
+    def list_all_alchemists
+        Alchemist.all.each_with_index do |alchemist, index|
+        puts "#{index +1} - #{alchemist.name}"
+        end
     end
 
     def instructions
@@ -28,71 +50,87 @@ class Cli
     puts "If you want to exit, please type in 'exit'.\n"
     end 
 
-    def list_all_alchemists
-        Alchemist.all.each_with_index do |alchemist, index|
-        puts "#{index +1} - #{alchemist.name}"
+    
+    def number_selection 
+        input = gets.chomp 
+        return input if input == "exit"
+        if !valid?(input)
+            puts "Please input a number between 1-14"
+            return "invalid"
         end
+        return input.to_i - 1 
+    end 
+
+    def valid?(input)
+    if input.to_i > 0 && input.to_i < Alchemist.all.count
+        true
+    else
+        false
+    end
     end
 
+    def second_selection
+    selection = gets.chomp 
+    return selection if selection == "no"
+    return selection if selection == "exit"
+    if !second_valid?(selection) 
+        puts "Please either type in 'yes', 'no', or 'exit'."
+        return "invalid selection. Please try again"
+    end
+    return selection
+    end 
 
-    def valid?(input = gets.chomp)
-        input = input.to_i
-        if input > 0 && input <= Alchemist.all.count
-            true
+    def second_valid?(selection)
+    if selection == "yes" 
+        true 
+    else
+        false 
+    end
+    end
+
+    def third_selection 
+        second_choice = gets.chomp 
+        return second_choice if second_choice == "exit" 
+        return second_choice if second_choice == "restart" 
+        if !third_valid?(second_choice) 
+            puts "Please either type in 'yes', 'no', 'exit' or 'restart'."
+            return "invalid" 
+        end 
+        return second_choice 
+    end
+
+    def third_valid?(second_choice) 
+        if second_choice == "yes" 
+            true 
         else
-            puts "Please input a number between 1 - 14"
+            false
         end
-    end
+    end 
 
-    def list_a_alchemist(index)
-        if valid?(index)
-            actual_index = index.to_i - 1
-            Alchemist.all.each_with_index do |alchemist,i| 
-            if actual_index == i 
+
+    def list_a_alchemist(input)
+        Alchemist.all.each_with_index do |alchemist,i| 
+            if input == i 
             puts "#{alchemist.name} has the title of #{alchemist.title}. #{alchemist.name} holds the rank of #{alchemist.rank} and first appears in #{alchemist.first_apperance}."
             end
-            end
         end
     end
 
-    def see_more(input = gets.chomp)
-        puts "Do you want to read about the character or chapter?"
-        if input == "yes" 
-            decision
-        elsif input != "yes"
-            puts "Please either type in 'yes' or 'no'."
-        elsif input == "no"
 
-        end
+    def decision
+    puts "Do you want to read the Chapter summary"
     end
 
-    def decision(input = gets.chomp)
-    puts "Do you want to read the chapter summary"
-        if input == "yes" 
-            provide_chapter_info(number)
-        elsif input == "no"
-            puts "Do you want to read the character info?"
-            if input == "yes"
-                provide character_info(number)
-            end
-        elsif input == "no"
-            puts "Thanks - back to main menu then"
-            user_selection 
-        elsif input != "yes"|| "no"
-            puts "Please either type in a 'yes' or 'no'"
-
-        end
+    def second_decision 
+    puts "Do you want to read a Character summary?"
     end
-
         
-    def provide_chapter_info(input_number) 
-    link = Alchemist.chapter_link(number)
-    Alchemist.get_chapter_info(link)
+    def chapter_info(input_number) 
+    puts Alchemist.chapter_info(input_number)
     end
     
     def character_info(input_number)
-    link = Alchemist.character_info(number)
-    Alchemist.get_character_info(link)
+    puts Alchemist.character_info(input_number)
     end
 
 

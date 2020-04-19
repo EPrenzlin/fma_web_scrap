@@ -26,7 +26,6 @@ end
 
 
 def self.get_character_info(link)
-    # get_details = Alchemist.all.detect{|a|a.name.include?(character_name)}
     fma_wiki = open(link)
     character_website = Nokogiri::HTML(fma_wiki)
     p_one = character_website.css("#mw-content-text p")[0].text
