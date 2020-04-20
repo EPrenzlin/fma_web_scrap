@@ -11,31 +11,59 @@ class Cli
 
     def present_info
     greeting
-    list_all_alchemists
-    instructions
-    loop do 
-        input = number_selection
-        break if input == "exit"
-        next if input == "invalid"
-        list_a_alchemist(input)
-        decision
-        choice = second_selection
-        break if choice == "exit"
-        next if choice == "invalid" 
-        chapter_info(input)
-        second_decision
-        second_choice = third_selection
-        break if second_choice == "exit"
-        next if second_choice == "invalid"
-        character_info(input)
-        
+        loop do 
+            list_all_alchemists
+            new_line
+            instructions
+            new_line
+            input = number_selection
+            new_line
+            break if input == "exit"
+            next if input == "invalid"
+            new_line
+            list_a_alchemist(input)
+            new_line
+            decision
+            new_line
+            choice = user_input
+            new_line
+            if choice == "yes"
+                new_line
+                character_info(input)
+                new_line
+                chapter_info(input)
+            elsif choice == "no"
+                    next
+            elsif choice == "invalid"
+                    next
+            break if choice == "exit"
+
+            end 
+        end
+    end
+    
+    def user_input
+    choice = gets.chomp 
+    if choice == "yes"
+        return "yes"
+    elsif choice == "no"
+        return "no"
+    elsif choice == "exit"
+        return "exit"
+    elsif choice != "yes"|| "no" || "exit"
+        puts "Please enter a valid command - 'yes' or 'no'."
+        user_input
     end
     end
+    end
+    
 
     def greeting
-        puts "Welcome to the Full Metal Alchemist - State Alchemist database \n"
-        puts "Information contained herein includes spoilers.\n"
-        puts "Below is a list of all the currently known State Alchemists.\n"
+        new_line
+        puts "Welcome to the Full Metal Alchemist - State Alchemist database"
+        puts "Information contained herein includes spoilers."
+        puts "Below is a list of all the currently known State Alchemists."
+        new_line
     end
 
     def list_all_alchemists
@@ -45,9 +73,11 @@ class Cli
     end
 
     def instructions
-    puts "If you want to see more information on one of the Alchemists listed above, please type in the Character's number as it appears above\n"
-    puts "Within each selected Alchemist, you'll be able to request for further information - instructions will be given\n"
-    puts "If you want to exit, please type in 'exit'.\n"
+    new_line
+    puts "If you want to see more information on one of the Alchemists listed above, please type in the Character's number as it appears above"
+    puts "Within each selected Alchemist, you'll be able to request for further information - instructions will be given"
+    puts "If you want to exit, please type in 'exit'."
+    new_line
     end 
 
     
@@ -55,83 +85,47 @@ class Cli
         input = gets.chomp 
         return input if input == "exit"
         if !valid?(input)
-            puts "Please input a number between 1-14"
+            puts "Please input a number between 1-14 or exit."
             return "invalid"
         end
         return input.to_i - 1 
     end 
 
     def valid?(input)
-    if input.to_i > 0 && input.to_i < Alchemist.all.count
+    if input.to_i > 0 && input.to_i <= Alchemist.all.count
         true
     else
         false
     end
     end
 
-    def second_selection
-    selection = gets.chomp 
-    return selection if selection == "no"
-    return selection if selection == "exit"
-    if !second_valid?(selection) 
-        puts "Please either type in 'yes', 'no', or 'exit'."
-        return "invalid selection. Please try again"
-    end
-    return selection
-    end 
-
-    def second_valid?(selection)
-    if selection == "yes" 
-        true 
-    else
-        false 
-    end
-    end
-
-    def third_selection 
-        second_choice = gets.chomp 
-        return second_choice if second_choice == "exit" 
-        return second_choice if second_choice == "restart" 
-        if !third_valid?(second_choice) 
-            puts "Please either type in 'yes', 'no', 'exit' or 'restart'."
-            return "invalid" 
-        end 
-        return second_choice 
-    end
-
-    def third_valid?(second_choice) 
-        if second_choice == "yes" 
-            true 
-        else
-            false
-        end
-    end 
-
-
     def list_a_alchemist(input)
         Alchemist.all.each_with_index do |alchemist,i| 
             if input == i 
-            puts "#{alchemist.name} has the title of #{alchemist.title}. #{alchemist.name} holds the rank of #{alchemist.rank} and first appears in #{alchemist.first_apperance}."
+            puts " \n Name: #{alchemist.name} \n Title: #{alchemist.title} \n Rank: #{alchemist.rank} \n First Apperance: #{alchemist.first_apperance}.\n"
             end
         end
     end
 
 
     def decision
-    puts "Do you want to read the Chapter summary"
+    puts "Do you want to read the Chapter && Character summary?"
+    puts "Type in 'yes' or 'no'" 
+    puts "If you type in 'no', we go back to the database selection page."
     end
 
-    def second_decision 
-    puts "Do you want to read a Character summary?"
-    end
+
         
     def chapter_info(input_number) 
+    new_line
     puts Alchemist.chapter_info(input_number)
+    new_line
     end
     
     def character_info(input_number)
     puts Alchemist.character_info(input_number)
     end
 
-
-end 
+    def new_line 
+        puts "\n\n"
+    end

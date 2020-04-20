@@ -6,14 +6,6 @@ def self.all
     @@all 
 end
 
-def self.find_by_title(title)
-    self.all.detect{|alchemist|alchemist.title.include?(title)}  
-end
-
-def self.find_by_rank(rank) 
-self.all.select{|a|a.rank.include?(rank)}
-end 
-
 
 def self.create_alchemists(array_of_hashes)
     array_of_hashes.each do |hash| 
@@ -66,13 +58,10 @@ def initialize(name: nil, rank: nil , title: nil , name_link: nil, chapter_link:
     @chapter_link = chapter_link
     @name_link = name_link
     @first_apperance = first_apperance
-    save
+    @@all << self
 end
 
 
-def save 
-@@all << self
-end 
 
 
 end
