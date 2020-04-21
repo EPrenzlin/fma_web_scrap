@@ -15,12 +15,10 @@ class Cli
             list_all_alchemists
             new_line
             instructions
-            new_line
             input = number_selection
             new_line
             break if input == "exit"
             next if input == "invalid"
-            new_line
             list_a_alchemist(input)
             new_line
             decision
@@ -60,9 +58,9 @@ class Cli
 
     def greeting
         new_line
-        puts "Welcome to the Full Metal Alchemist - State Alchemist database"
-        puts "Information contained herein includes spoilers."
-        puts "Below is a list of all the currently known State Alchemists."
+        puts "Welcome to the Full Metal Alchemist - State Alchemist database.".red
+        puts "Information contained herein includes spoilers.".red 
+        puts "Below is a list of all the currently known State Alchemists.".red
         new_line
     end
 
@@ -74,7 +72,7 @@ class Cli
 
     def instructions
     new_line
-    puts "If you want to see more information on one of the Alchemists listed above, please type in the Character's number as it appears above"
+    puts "If you want to see more information on one of the Alchemists listed above, please type in the Character's number only as it appears above"
     puts "Within each selected Alchemist, you'll be able to request for further information - instructions will be given"
     puts "If you want to exit, please type in 'exit'."
     new_line
@@ -102,27 +100,28 @@ class Cli
     def list_a_alchemist(input)
         Alchemist.all.each_with_index do |alchemist,i| 
             if input == i 
-            puts " \n Name: #{alchemist.name} \n Title: #{alchemist.title} \n Rank: #{alchemist.rank} \n First Apperance: #{alchemist.first_apperance}.\n"
+            puts " \n Name: #{alchemist.name} \n Title: #{alchemist.title} \n Rank: #{alchemist.rank} \n First Apperance: #{alchemist.first_apperance}.".red
             end
         end
     end
 
 
     def decision
-    puts "Do you want to read the Chapter && Character summary?"
-    puts "Type in 'yes' or 'no'" 
-    puts "If you type in 'no', we go back to the database selection page."
+    puts "Do you want to read the Chapter && Character summary?".yellow
+    puts "Type in 'yes' or 'no'".yellow 
+    puts "If you type in 'no', we go back to the database selection page.".yellow
     end
 
 
         
     def chapter_info(input_number) 
-    new_line
+    puts "Chapter info".red
     puts Alchemist.chapter_info(input_number)
     new_line
     end
     
     def character_info(input_number)
+        puts "Character Info".yellow
     puts Alchemist.character_info(input_number)
     end
 

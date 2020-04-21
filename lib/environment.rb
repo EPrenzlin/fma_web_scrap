@@ -6,6 +6,7 @@ require_relative './cli'
 require "pry"
 require "open-uri"
 require "nokogiri"
+require "colorize"
 
 module ErikProject
   class Error < StandardError; end
