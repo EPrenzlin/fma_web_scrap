@@ -9,30 +9,9 @@ This is a CLI dedicated to the State Alchemsits within the Full Metal Alchemist 
 2) After displaying the basic information, the user will have the choice of reading a character and chapter summary. 
 3) Once read, the user will be taken back to the home page for further selection.
 
-## Requirements 
+## Set-up 
 
-You will need to install the below Ruby gems. 
-
-```ruby
-gem "rake", "~> 12.0"
-gem "rspec", "~> 3.0"
-gem 'nokogiri'
-gem 'pry' 
-gem 'colorize'
-```
-
-And then execute:
-
-    bundle install
-
-## Environment
-Within the environment file, the following will need to be required: 
-``` 
-require "pry"
-require "open-uri"
-require "nokogiri"
-require "colorize"
-``` 
+This gems dependencies include Nokogiri, Pry, and Colourize. These will be excected when "bundle install" is run within the app.
 
 
 ## Development
