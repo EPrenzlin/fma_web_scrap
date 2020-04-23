@@ -11,9 +11,11 @@ This is a CLI dedicated to the State Alchemsits within the Full Metal Alchemist 
 
 ## Requirements 
 
-You will need to install the below gems. 
+You will need to install the below Ruby gems. 
 
 ```ruby
+gem "rake", "~> 12.0"
+gem "rspec", "~> 3.0"
 gem 'nokogiri'
 gem 'pry' 
 gem 'colorize'
@@ -31,8 +33,6 @@ require "open-uri"
 require "nokogiri"
 require "colorize"
 ``` 
-
-## 
 
 
 ## Development
